@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AceEditor from 'react-ace';
-import { Button } from 'reactstrap';
+import { Alert, Button } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import endpoints from '../../data/endpoints'
@@ -9,9 +9,14 @@ import 'ace-builds/src-noconflict/theme-dracula';
 
 const Editor = () => {
     const [code, setCode] = useState('');
-    const inputArgs = useSelector(state => state.inputArgs);
+    const inputArgs = useSelector(state => state.inputArguments.inputArguments);
+    const [hasSubmissionError, setHasSubmissionError] = useState(false);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const handleCodeChange = (newCode) => {
+        if (hasSubmitted) {
+            setHasSubmitted(false);
+        }
         setCode(newCode);
     };
 
@@ -45,7 +50,17 @@ const Editor = () => {
             inputCode: formattedCode,
             maxInputSize: maxInputSize,
             args: formattedArgs
-        })
+        }, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        }).then((response) => {
+            setHasSubmitted(true);
+            setHasSubmissionError(false);
+        }).catch((error) => {
+            setHasSubmitted(true);
+            setHasSubmissionError(true);
+        });
     };
 
     return (
@@ -60,6 +75,8 @@ const Editor = () => {
                 width="100%"
                 height="500px"
             />
+            {(hasSubmitted && hasSubmissionError) && <Alert color="danger">Error submitting code and arguments.</Alert>}
+            {(hasSubmitted && !hasSubmissionError) && <Alert color="success">Successfully submitted code and arguments.</Alert>}
             <Button size='lg' color="primary" onClick={submitCodeAndArgs} style={{ margin: '16px' }}>Analyze Code</Button>
         </>
 

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     inputArguments: [],
+    description: '',
     numVariableArgs: 0
 }
 
@@ -9,6 +10,9 @@ export const inputArgumentsSlice = createSlice({
     name: 'inputArguments',
     initialState,
     reducers: {
+        updateDescription: (state, action) => {
+            state.description = action.payload;
+        },
         getInputArguments: (state) => { return state.inputArguments },
         addInputArgument: (state, action) => {
             if (state.inputArguments.find(inputArgument => inputArgument.name === action.payload.name)) {
@@ -36,6 +40,6 @@ export const inputArgumentsSlice = createSlice({
     },
 })
 
-export const { getInputArguments, addInputArgument, removeInputArgument } = inputArgumentsSlice.actions
+export const { updateDescription, getInputArguments, addInputArgument, removeInputArgument } = inputArgumentsSlice.actions
 
 export default inputArgumentsSlice.reducer

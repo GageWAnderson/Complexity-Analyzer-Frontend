@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Container, Navbar, NavbarBrand, Nav, NavItem, NavLink, Button } from 'reactstrap';
+import Homepage from '../Homepage/Homepage';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Editor from '../../components/Editor/Editor';
-import Results from '../../components/Results/Results';
-import RuntimeGraph from '../../components/RuntimeGraph/RuntimeGraph';
-import ArgumentEntryForm from '../../components/ArgumentEntryForm/ArgumentEntryForm';
-import ArgumentList from '../../components/ArgumentList/ArgumentList';
-import DescriptionEntryForm from '../../components/DescriptionEntryForm/DescriptionEntryForm';
+import SignIn from '../SignIn/SignIn';
 import './Home.css';
 
 function Home() {
   const [footerVisible, setFooterVisible] = useState(false);
+
+  const signedIn = useSelector((state) => state.profile.signedIn);
 
   useEffect(() => {
     function handleScroll() {
@@ -25,11 +24,11 @@ function Home() {
   }, []);
 
   return (
-    <div>
-      <Button color="danger">Danger!</Button>
+    <Container>
+      <br />
       <Navbar color="dark" dark expand="md" fixed="top">
-        <NavbarBrand href="#">My Website</NavbarBrand>
-        <Nav className="ml-auto" navbar>
+        <NavbarBrand href="#">Code Complexity Analyzer</NavbarBrand>
+        <Nav navbar>
           <NavItem>
             <NavLink href="#">Home</NavLink>
           </NavItem>
@@ -40,24 +39,11 @@ function Home() {
             <NavLink href="#">Contact</NavLink>
           </NavItem>
         </Nav>
-        <Button color="primary">Sign In</Button>
+        {signedIn ? <Button className='ml-auto' color="danger">Sign Out</Button> :
+          <Button className='ml-auto' color="primary">Sign In</Button>}
+        {!signedIn && <Button className='ml-auto' color="danger">Sign Up</Button>}
       </Navbar>
-      <Container className="mt-5 text-center">
-        <h1>Python Code Editor</h1>
-        <p>Function name def... is assumed, write the function body below in valid Python with no extra indents.</p>
-        <ArgumentEntryForm />
-        <ArgumentList />
-        <DescriptionEntryForm />
-        <Editor />
-      </Container>
-      <Container className="mt-5 text-center">
-        <h1>Your Results</h1>
-        <Results />
-      </Container>
-      <Container className="mt-5 text-center">
-        <h1>Runtime Graph</h1>
-        <RuntimeGraph />
-      </Container>
+      {signedIn ? <Homepage /> : <SignIn />}
       {footerVisible && (
         <footer className="fixed-bottom bg-light py-2">
           <Container>
@@ -65,7 +51,7 @@ function Home() {
           </Container>
         </footer>
       )}
-    </div>
+    </Container>
   );
 }
 
