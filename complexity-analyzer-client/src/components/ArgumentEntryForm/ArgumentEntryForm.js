@@ -1,34 +1,70 @@
 import React, { useState } from 'react';
-import { Form, FormGroup, Label, Input, Col, Button, FormFeedback } from 'reactstrap';
+import { Alert, Form, FormGroup, Label, Input, Col, Button, FormFeedback } from 'reactstrap';
+import { addInputArgument } from '../../redux/inputArgumentsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import ContainerCard from '../ContainerCard/ContainerCard';
 
 const ArgumentEntryForm = () => {
     const DEFAULT_MAX_INPUT_SIZE = 100;
     const LIMIT_MAX_INPUT_SIZE = 100000;
+    const MAX_ARGUMENT_NUMBER = 3;
+    const DEFAULT_TYPE = 'Integer';
 
     const [name, setName] = useState('');
-    const [value, setValue] = useState('');
-    const [isChecked, setIsChecked] = useState(false);
+    const [type, setType] = useState(DEFAULT_TYPE);
+    const [isVariable, setIsVariable] = useState(false);
+    const [hasSubmissionError, setHasSubmissionError] = useState(false);
+    const [submissionErrorText, setSubmissionErrorText] = useState('');
     const [maxInputSize, setMaxInputSize] = useState(DEFAULT_MAX_INPUT_SIZE);
     const [isNameValid, setIsNameValid] = useState(false);
     const [isMaxInputSizeValid, setIsMaxInputSizeValid] = useState(true);
 
+    const dispatch = useDispatch();
+    const currentInputArguments = useSelector((state) => state.inputArguments.inputArguments);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // TODO: Handle argument entry here
+        console.log(currentInputArguments);
+        if (!isNameValid) {
+            setHasSubmissionError(true);
+            setSubmissionErrorText('Invalid input name');
+            return;
+        } else if (!isMaxInputSizeValid) {
+            setHasSubmissionError(true);
+            setSubmissionErrorText('Invalid max input size');
+            return;
+        } else if (currentInputArguments.find((inputArgument) => inputArgument.name === name)) {
+            setHasSubmissionError(true);
+            setSubmissionErrorText('Input name already exists');
+            return;
+        } else if (currentInputArguments.length >= MAX_ARGUMENT_NUMBER) {
+            setHasSubmissionError(true);
+            setSubmissionErrorText('Maximum number of input arguments reached');
+            return;
+        }
+
+        try {
+            dispatch(addInputArgument({ name, type, isVariable, maxInputSize }));
+            setHasSubmissionError(false);
+            setSubmissionErrorText('');
+        } catch (error) {
+            setHasSubmissionError(true);
+            setSubmissionErrorText(error.message);
+        }
+
     };
 
     const handleNameChange = (e) => {
         setName(e.target.value);
-        setIsNameValid(e.target.value !== '');
+        setIsNameValid(e.target.value.trim() !== '');
     };
 
-    const handleValueChange = (e) => {
-        setValue(e.target.value);
+    const handleTypeChange = (e) => {
+        setType(e.target.value);
     };
 
     const handleCheckboxChange = (e) => {
-        setIsChecked(e.target.checked);
+        setIsVariable(e.target.checked);
     };
 
     const handleMaxInputSizeChange = (e) => {
@@ -65,16 +101,15 @@ const ArgumentEntryForm = () => {
                     <Col sm={10}>
                         <Input
                             type="select"
-                            name="value"
-                            id="value"
-                            value={value}
-                            onChange={handleValueChange}
+                            name="type"
+                            id="type"
+                            value={type}
+                            onChange={handleTypeChange}
                         >
-                            <option value="">Please select a value</option>
-                            <option value="integer">{"Integer"}</option>
-                            <option value="option2">{"String"}</option>
-                            <option value="option3">{"List<Integer>"}</option>
-                            <option value="option4">{"List<String>"}</option>
+                            <option value="Integer">{"Integer"}</option>
+                            <option value="String">{"String"}</option>
+                            <option value="List<Integer>">{"List<Integer>"}</option>
+                            <option value="List<String>">{"List<String>"}</option>
                         </Input>
                     </Col>
                 </FormGroup>
@@ -85,8 +120,8 @@ const ArgumentEntryForm = () => {
                             <Label check>
                                 <Input
                                     type="checkbox"
-                                    name="isChecked"
-                                    checked={isChecked}
+                                    name="isVariable"
+                                    checked={isVariable}
                                     onChange={handleCheckboxChange}
                                 />{' '}
                                 Vary this argument?
@@ -95,7 +130,7 @@ const ArgumentEntryForm = () => {
                     </Col>
                 </FormGroup>
 
-                {isChecked && (
+                {isVariable && (
                     <FormGroup row>
                         <Label for="maxInputSize" sm={2}>
                             Maximum Input Size
@@ -123,6 +158,7 @@ const ArgumentEntryForm = () => {
                     </Col>
                 </FormGroup>
             </Form>
+            {hasSubmissionError && <Alert color='danger'>{submissionErrorText}</Alert>}
         </ContainerCard>
     );
 };

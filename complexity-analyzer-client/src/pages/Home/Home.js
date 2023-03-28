@@ -6,6 +6,7 @@ import Results from '../../components/Results/Results';
 import RuntimeGraph from '../../components/RuntimeGraph/RuntimeGraph';
 import ArgumentEntryForm from '../../components/ArgumentEntryForm/ArgumentEntryForm';
 import ArgumentList from '../../components/ArgumentList/ArgumentList';
+import DescriptionEntryForm from '../../components/DescriptionEntryForm/DescriptionEntryForm';
 import './Home.css';
 
 function Home() {
@@ -46,6 +47,7 @@ function Home() {
         <p>Function name def... is assumed, write the function body below in valid Python with no extra indents.</p>
         <ArgumentEntryForm />
         <ArgumentList />
+        <DescriptionEntryForm />
         <Editor />
       </Container>
       <Container className="mt-5 text-center">

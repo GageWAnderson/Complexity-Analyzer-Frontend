@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    inputArguments: []
+    inputArguments: [],
+    numVariableArgs: 0
 }
 
 export const inputArgumentsSlice = createSlice({
@@ -10,20 +11,31 @@ export const inputArgumentsSlice = createSlice({
     reducers: {
         getInputArguments: (state) => { return state.inputArguments },
         addInputArgument: (state, action) => {
-            state.inputArguments.push(action.payload);
+            if (state.inputArguments.find(inputArgument => inputArgument.name === action.payload.name)) {
+                throw new Error("Input argument with the same name already exists");
+            }
+
+            if (action.payload.isVariable) {
+                if (state.numVariableArgs < 1) {
+                    state.inputArguments.push(action.payload);
+                    state.numVariableArgs++;
+                } else {
+                    throw new Error("Only one variable argument is allowed");
+                }
+            } else {
+                state.inputArguments.push(action.payload);
+            }
+
         },
         removeInputArgument: (state, action) => {
-            state.inputArguments.pop(action.payload);
-        },
-        setInputArguments: (state, action) => {
-            state.inputArguments = [];
-            action.payload.forEach(inputArgument => {
-                state.inputArguments.push(inputArgument);
-            });
+            if (action.payload.isVariable) {
+                state.numVariableArgs--;
+            }
+            state.inputArguments = state.inputArguments.filter(inputArgument => inputArgument.name !== action.payload);
         }
     },
 })
 
-export const { getProfile, addInputArgument, removeInputArgument, setInputArguments } = inputArgumentsSlice.actions
+export const { getInputArguments, addInputArgument, removeInputArgument } = inputArgumentsSlice.actions
 
 export default inputArgumentsSlice.reducer
