@@ -12,7 +12,7 @@ const ArgumentList = () => {
     dispatch(removeInputArgument(event.target.id));
   }
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState('1');
   const toggle = (id) => {
     if (open === id) {
       setOpen();

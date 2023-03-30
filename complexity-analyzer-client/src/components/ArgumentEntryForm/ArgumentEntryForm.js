@@ -24,7 +24,6 @@ const ArgumentEntryForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(currentInputArguments);
         if (!isNameValid) {
             setHasSubmissionError(true);
             setSubmissionErrorText('Invalid input name');

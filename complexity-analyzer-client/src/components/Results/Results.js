@@ -1,10 +1,13 @@
 import React from 'react';
+import { Container } from 'reactstrap';
+import RuntimeGraph from '../RuntimeGraph/RuntimeGraph';
 
 const Results = () => {
     return (
-        <div>
-            <h1>Results</h1>
-        </div>
+        <Container className="mt-5 text-center">
+            <h1>Runtime Graph</h1>
+            <RuntimeGraph />
+        </Container>
     );
 }
 

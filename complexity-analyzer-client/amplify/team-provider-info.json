@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-complexityanalyzercl-dev-93141-authRole",
+      "UnauthRoleArn": "arn:aws:iam::513370974470:role/amplify-complexityanalyzercl-dev-93141-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::513370974470:role/amplify-complexityanalyzercl-dev-93141-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-complexityanalyzercl-dev-93141-deployment",
+      "UnauthRoleName": "amplify-complexityanalyzercl-dev-93141-unauthRole",
+      "StackName": "amplify-complexityanalyzercl-dev-93141",
+      "StackId": "arn:aws:cloudformation:us-east-1:513370974470:stack/amplify-complexityanalyzercl-dev-93141/0addd760-ce36-11ed-87ef-12d237b7cecd",
+      "AmplifyAppId": "d28l1qknbpwpeu"
+    },
+    "categories": {
+      "auth": {
+        "complexityanalyzercl63378a7c": {}
+      }
+    }
+  }
+}

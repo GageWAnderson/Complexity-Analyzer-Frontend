@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Container, Navbar, NavbarBrand, Nav, NavItem, NavLink, Button } from 'reactstrap';
-import Homepage from '../Homepage/Homepage';
+import { Container } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import SignIn from '../SignIn/SignIn';
 import './Home.css';
+import ComplexityAnalyzerNavbar from '../../components/ComplexityAnalyzerNavbar/ComplexityAnalyzerNavbar';
+import PageRoutes from '../../components/PageRoutes/PageRoutes';
 
 function Home() {
   const [footerVisible, setFooterVisible] = useState(false);
-
-  const signedIn = useSelector((state) => state.profile.signedIn);
 
   useEffect(() => {
     function handleScroll() {
@@ -25,27 +22,10 @@ function Home() {
 
   return (
     <Container>
-      <br />
-      <Navbar color="dark" dark expand="md" fixed="top">
-        <NavbarBrand href="#">Code Complexity Analyzer</NavbarBrand>
-        <Nav navbar>
-          <NavItem>
-            <NavLink href="#">Home</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="#">About</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="#">Contact</NavLink>
-          </NavItem>
-        </Nav>
-        {signedIn ? <Button className='ml-auto' color="danger">Sign Out</Button> :
-          <Button className='ml-auto' color="primary">Sign In</Button>}
-        {!signedIn && <Button className='ml-auto' color="danger">Sign Up</Button>}
-      </Navbar>
-      {signedIn ? <Homepage /> : <SignIn />}
+      <ComplexityAnalyzerNavbar />
+      <PageRoutes />
       {footerVisible && (
-        <footer className="fixed-bottom bg-light py-2">
+        <footer className="fixed-bottom bg-dark py-2">
           <Container>
             <p>&copy; 2023 My Website. All rights reserved.</p>
           </Container>
