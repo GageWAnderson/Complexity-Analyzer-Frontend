@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AceEditor from 'react-ace';
-import { Alert, Button } from 'reactstrap';
+import { Alert, Button, Spinner } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import awsData from '../../data/aws-data';
 import { API } from 'aws-amplify';
@@ -15,6 +15,7 @@ const Editor = () => {
     const description = useSelector(state => state.inputArguments.description);
     const [hasSubmissionError, setHasSubmissionError] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleCodeChange = (newCode) => {
         if (hasSubmitted) {
@@ -34,7 +35,6 @@ const Editor = () => {
 
     const formatArguments = (inputArgs) => {
         let formattedArgs = [];
-        console.log(inputArgs);
         for (let i = 0; i < inputArgs.length; i++) {
             formattedArgs.push({
                 argName: inputArgs[i].name,
@@ -45,7 +45,8 @@ const Editor = () => {
         return formattedArgs;
     };
 
-    const submitCodeAndArgs = () => {
+    const submitCodeAndArgs = (event) => {
+        event.preventDefault();
         const formattedCode = code.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\t", "\\t");
         const formattedArgs = formatArguments(inputArgs);
         const maxInputSize = getMaxInputSize(inputArgs);
@@ -59,14 +60,19 @@ const Editor = () => {
             },
             headers: {},
         }
+        setIsLoading(true);
+        setHasSubmitted(false);
+        setHasSubmissionError(false);
         API.post(awsData.apiGatewayName, endpoints.inputValidator, init)
-            .then(response => {
-                console.log(response);
+            .then(() => {
+                setHasSubmitted(true);
+                setHasSubmissionError(false);
+                setIsLoading(false);
             })
-            .catch(error => {
-                console.log(error);
+            .catch(() => {
                 setHasSubmitted(true);
                 setHasSubmissionError(true);
+                setIsLoading(false);
             });
     };
 
@@ -82,9 +88,12 @@ const Editor = () => {
                 width="100%"
                 height="500px"
             />
-            {(hasSubmitted && hasSubmissionError) && <Alert color="danger">Error submitting code and arguments.</Alert>}
-            {(hasSubmitted && !hasSubmissionError) && <Alert color="success">Successfully submitted code and arguments.</Alert>}
-            <Button size='lg' color="primary" onClick={submitCodeAndArgs} style={{ margin: '16px' }}>Analyze Code</Button>
+            {(hasSubmitted && hasSubmissionError) && <Alert style={{ margin: '16px' }} color="danger">Error submitting code and arguments.</Alert>}
+            {(hasSubmitted && !hasSubmissionError) && <Alert style={{ margin: '16px' }} color="success">Successfully submitted code and arguments.</Alert>}
+            {isLoading && <Spinner style={{ margin: '16px' }} />}
+            {isLoading ?
+                <Button size='lg' color="primary" disabled style={{ margin: '16px' }}>Analyze Code</Button> :
+                <Button size='lg' color="primary" onClick={submitCodeAndArgs} style={{ margin: '16px' }}>Analyze Code</Button>}
         </>
 
     );

@@ -47,7 +47,7 @@ const DescriptionEntryForm = () => {
                     invalid={textareaError}
                 />
                 <FormFeedback>Please enter a value for the code description.</FormFeedback>
-                <FormText>Enter some text to document and describe your code.<br /></FormText>
+                <FormText>(Optional) Enter some text to document and describe your code.<br /></FormText>
                 <Button size='sm' color="primary" type='submit'>Add Description</Button>
             </FormGroup>
             {formSubmitted && (textareaError ? <Alert color='danger'>There was an error submitting your description, try again.</Alert> :

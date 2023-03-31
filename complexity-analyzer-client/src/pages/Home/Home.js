@@ -10,7 +10,7 @@ function Home() {
 
   useEffect(() => {
     function handleScroll() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight + 100) {
         setFooterVisible(true);
       } else {
         setFooterVisible(false);

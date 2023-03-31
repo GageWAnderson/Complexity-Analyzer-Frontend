@@ -3,6 +3,7 @@ import Editor from '../../components/Editor/Editor';
 import ArgumentEntryForm from '../../components/ArgumentEntryForm/ArgumentEntryForm';
 import ArgumentList from '../../components/ArgumentList/ArgumentList';
 import DescriptionEntryForm from '../../components/DescriptionEntryForm/DescriptionEntryForm';
+import CodeDescrpition from '../../components/CodeDescrpition/CodeDescrpition';
 import { Container } from 'reactstrap';
 
 const Homepage = () => {
@@ -15,6 +16,7 @@ const Homepage = () => {
                 <ArgumentEntryForm />
                 <ArgumentList />
                 <DescriptionEntryForm />
+                <CodeDescrpition />
                 <Editor />
             </Container>
         </>
