@@ -1,20 +1,23 @@
 import React from 'react';
-import { Container, Row, Col, Card, CardBody } from 'reactstrap';
+import ContainerCard from '../../components/ContainerCard/ContainerCard';
+import { useSelector } from 'react-redux';
 
-const Profile = ({ username, email }) => {
+const Profile = () => {
+
+  const { username, email } = useSelector((state) => state.profile);
+
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Card className="profile-card">
-            <CardBody>
-              <h1 className="profile-title">{username}</h1>
-              <p className="profile-email">{email}</p>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <br />
+      <br />
+      <br />
+      <ContainerCard>
+        <h1>Profile Information</h1>
+        <p>Username: {username}</p>
+        <p>Email: {email}</p>
+      </ContainerCard>
+    </>
+
   );
 };
 

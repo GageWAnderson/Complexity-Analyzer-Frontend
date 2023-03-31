@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import AceEditor from 'react-ace';
 import { Alert, Button } from 'reactstrap';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+import awsData from '../../data/aws-data';
+import { API } from 'aws-amplify';
 import endpoints from '../../data/endpoints'
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-dracula';
@@ -10,6 +11,8 @@ import 'ace-builds/src-noconflict/theme-dracula';
 const Editor = () => {
     const [code, setCode] = useState('');
     const inputArgs = useSelector(state => state.inputArguments.inputArguments);
+    const uuid = useSelector(state => state.profile.uuid);
+    const description = useSelector(state => state.inputArguments.description);
     const [hasSubmissionError, setHasSubmissionError] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -30,12 +33,14 @@ const Editor = () => {
     };
 
     const formatArguments = (inputArgs) => {
-        let formattedArgs = "";
+        let formattedArgs = [];
+        console.log(inputArgs);
         for (let i = 0; i < inputArgs.length; i++) {
-            formattedArgs += inputArgs[i].name;
-            if (i < inputArgs.length - 1) {
-                formattedArgs += ", ";
-            }
+            formattedArgs.push({
+                argName: inputArgs[i].name,
+                variable: inputArgs[i].isVariable,
+                argType: inputArgs[i].type
+            });
         }
         return formattedArgs;
     };
@@ -44,23 +49,25 @@ const Editor = () => {
         const formattedCode = code.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\t", "\\t");
         const formattedArgs = formatArguments(inputArgs);
         const maxInputSize = getMaxInputSize(inputArgs);
-
-        axios.post(endpoints.inputValidator, {
-            description: 'TODO: Add description from user input to be logged in metadata',
-            inputCode: formattedCode,
-            maxInputSize: maxInputSize,
-            args: formattedArgs
-        }, {
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            }
-        }).then((response) => {
-            setHasSubmitted(true);
-            setHasSubmissionError(false);
-        }).catch((error) => {
-            setHasSubmitted(true);
-            setHasSubmissionError(true);
-        });
+        const init = {
+            body: {
+                uuid: uuid,
+                description: description,
+                inputCode: formattedCode,
+                maxInputSize: parseInt(maxInputSize),
+                args: formattedArgs
+            },
+            headers: {},
+        }
+        API.post(awsData.apiGatewayName, endpoints.inputValidator, init)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+                setHasSubmitted(true);
+                setHasSubmissionError(true);
+            });
     };
 
     return (

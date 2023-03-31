@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    user: null,
-    signOut: null,
+    username: '',
+    email: '',
+    uuid: '',
     // TODO: Store key needed to access AWS API Gateway through Cognito User Pool
 }
 
@@ -11,7 +12,9 @@ export const profileSlice = createSlice({
     initialState,
     reducers: {
         updateUser: (state, action) => {
-            state.user = action.payload;
+            state.username = action.payload.username;
+            state.email = action.payload.email;
+            state.uuid = action.payload.uuid;
         }
     },
 })

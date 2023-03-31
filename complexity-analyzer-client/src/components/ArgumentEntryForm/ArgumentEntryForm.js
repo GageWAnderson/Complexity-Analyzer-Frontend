@@ -8,7 +8,7 @@ const ArgumentEntryForm = () => {
     const DEFAULT_MAX_INPUT_SIZE = 100;
     const LIMIT_MAX_INPUT_SIZE = 100000;
     const MAX_ARGUMENT_NUMBER = 3;
-    const DEFAULT_TYPE = 'Integer';
+    const DEFAULT_TYPE = 'int';
 
     const [name, setName] = useState('');
     const [type, setType] = useState(DEFAULT_TYPE);
@@ -105,10 +105,10 @@ const ArgumentEntryForm = () => {
                             value={type}
                             onChange={handleTypeChange}
                         >
-                            <option value="Integer">{"Integer"}</option>
-                            <option value="String">{"String"}</option>
-                            <option value="List<Integer>">{"List<Integer>"}</option>
-                            <option value="List<String>">{"List<String>"}</option>
+                            <option value="int">{"int"}</option>
+                            <option value="string">{"string"}</option>
+                            <option value="list<int>">{"list<int>"}</option>
+                            <option value="list<string>">{"list<string>"}</option>
                         </Input>
                     </Col>
                 </FormGroup>
