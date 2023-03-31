@@ -6,6 +6,10 @@ const CodeDescrpition = () => {
 
     const codeDescription = useSelector(state => state.inputArguments.description);
 
+    if (!codeDescription) {
+        return null;
+    };
+
     return (
         <ContainerCard>
             <h3>Code Description:</h3>

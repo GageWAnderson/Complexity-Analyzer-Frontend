@@ -52,7 +52,6 @@ const Editor = () => {
         const maxInputSize = getMaxInputSize(inputArgs);
         const init = {
             body: {
-                uuid: uuid,
                 description: description,
                 inputCode: formattedCode,
                 maxInputSize: parseInt(maxInputSize),
@@ -63,7 +62,7 @@ const Editor = () => {
         setIsLoading(true);
         setHasSubmitted(false);
         setHasSubmissionError(false);
-        API.post(awsData.apiGatewayName, endpoints.inputValidator, init)
+        API.post(awsData.apiGatewayName, endpoints.inputValidator(uuid), init)
             .then(() => {
                 setHasSubmitted(true);
                 setHasSubmissionError(false);
