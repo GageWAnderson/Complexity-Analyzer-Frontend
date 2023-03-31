@@ -19,6 +19,7 @@ const Results = () => {
 
     const getResultsMetadata = () => {
         const init = { headers: {} };
+        setIsLoading(true);
         API.get(awsData.apiGatewayName, endpoints.getAllUserMetadata(uuid), init)
             .then(response => {
                 console.log(response);
@@ -35,7 +36,7 @@ const Results = () => {
 
     useEffect(() => {
         getResultsMetadata();
-    });
+    }, []);
 
     const resultList = () => {
         if (isLoading) {
@@ -47,13 +48,15 @@ const Results = () => {
                 <Alert color="danger">Failed to load results metadata, try again.</Alert>
             )
         } else {
-            <ListGroup>
-                {resultsMetadata.map(value => (
-                    <ListGroupItem key={value.id}>
-                        {value.name}
-                    </ListGroupItem>
-                ))}
-            </ListGroup>
+            return (
+                <ListGroup>
+                    {resultsMetadata.body.map(value => (
+                        <ListGroupItem key={value.timestamp}>
+                            <p><b>{value.timestamp}</b>: Complexity Estimate: {value.complexity}, Code: {value.inputCode}</p>
+                        </ListGroupItem>
+                    ))}
+                </ListGroup>
+            );
         }
     }
 
