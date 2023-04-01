@@ -1,28 +1,91 @@
-import React from 'react';
-import { XYPlot, XAxis, YAxis, MarkSeries } from 'react-vis';
-import { Container } from 'reactstrap';
-// import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { XYPlot, XAxis, YAxis, MarkSeries, VerticalGridLines, HorizontalGridLines } from 'react-vis';
+import { Alert, Button, Spinner } from 'reactstrap';
+import { API } from 'aws-amplify';
+import endpoints from '../../data/endpoints'
+import awsData from '../../data/aws-data';
+import { useDispatch, useSelector } from 'react-redux';
+import ContainerCard from '../ContainerCard/ContainerCard';
+import { updateResultsGraph } from '../../redux/resultsGraphSlice';
 
-function RuntimeGraph() {
-    //   const data = useSelector(state => state.scatterPlot.data);
+function RuntimeGraph({ timestamp, uuid }) {
+    const [hasError, setHasError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const data = [
-        { x: 1, y: 2 },
-        { x: 2, y: 4 },
-        { x: 3, y: 1 },
-        { x: 4, y: 5 },
-        { x: 5, y: 3 },
-    ];
+    const graphData = useSelector(state => state.resultsGraph.graph);
+
+    const dispatch = useDispatch();
+
+    const formatGraphData = (data) => {
+        const mappedData = data.map((item) => {
+            return {
+                x: item.x,
+                y: parseFloat(item.y),
+            }
+        });
+        dispatch(updateResultsGraph(mappedData));
+    };
+
+    const getResultsGraph = (event) => {
+        event.preventDefault();
+        const init = { headers: {} };
+        setIsLoading(true);
+        API.get(awsData.apiGatewayName, endpoints.getResultGraph(uuid, timestamp), init)
+            .then(response => {
+                formatGraphData(response.body)
+                setHasError(false);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                setHasError(true);
+                setIsLoading(false);
+            });
+    }
 
 
+    if (isLoading) {
+        return (
+            <ContainerCard>
+                <Spinner color='primary' />
+            </ContainerCard>
+        );
+    } else if (hasError) {
+        return (
+            <>
+                <Alert color="danger">Error loading results runtime graph</Alert>
+                <Button onClick={getResultsGraph}>Retry</Button>
+            </>
+        );
+    }
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
-            <XYPlot width={800} height={400}>
-                <XAxis />
-                <YAxis />
-                <MarkSeries data={data} />
-            </XYPlot>
-        </Container>
+        <>
+            {isLoading ?
+                <Button
+                    size='lg'
+                    style={{ margin: '16px' }}
+                    color="primary"
+                    disabled
+                >
+                    <Spinner size="sm">
+                        Loading...
+                    </Spinner>
+                    <span>
+                        {' '}Loading
+                    </span>
+                </Button> :
+                <Button size='lg' color="primary" onClick={getResultsGraph} style={{ margin: '16px' }}>Get Runtime Graph</Button>}
+            <ContainerCard>
+                {(graphData !== null) ? (
+                    <XYPlot width={1000} height={600}>
+                        <VerticalGridLines />
+                        <HorizontalGridLines />
+                        <XAxis title='Input Size' />
+                        <YAxis title='Runtime (seconds)' />
+                        <MarkSeries data={graphData} />
+                    </XYPlot>
+                ) : <Alert color='warning'>No Graph Data Yet</Alert>}
+            </ContainerCard>
+        </>
     );
 }
 

@@ -47,7 +47,7 @@ const Editor = () => {
 
     const submitCodeAndArgs = (event) => {
         event.preventDefault();
-        const formattedCode = code.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\t", "\\t");
+        const formattedCode = JSON.stringify(code);
         const formattedArgs = formatArguments(inputArgs);
         const maxInputSize = getMaxInputSize(inputArgs);
         const init = {
@@ -89,9 +89,20 @@ const Editor = () => {
             />
             {(hasSubmitted && hasSubmissionError) && <Alert style={{ margin: '16px' }} color="danger">Error submitting code and arguments.</Alert>}
             {(hasSubmitted && !hasSubmissionError) && <Alert style={{ margin: '16px' }} color="success">Successfully submitted code and arguments.</Alert>}
-            {isLoading && <Spinner style={{ margin: '16px' }} />}
             {isLoading ?
-                <Button size='lg' color="primary" disabled style={{ margin: '16px' }}>Analyze Code</Button> :
+                <Button
+                    size='lg'
+                    style={{ margin: '16px' }}
+                    color="primary"
+                    disabled
+                >
+                    <Spinner size="sm">
+                        Loading...
+                    </Spinner>
+                    <span>
+                        {' '}Loading
+                    </span>
+                </Button> :
                 <Button size='lg' color="primary" onClick={submitCodeAndArgs} style={{ margin: '16px' }}>Analyze Code</Button>}
         </>
 
