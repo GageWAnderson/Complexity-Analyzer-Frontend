@@ -8,12 +8,12 @@ phases:
       - echo Installing source NPM dependencies...  
       - cd complexity-analyzer-client
       - npm install
-      - cd..
+      - cd ..
   build:
     commands:
       - cd complexity-analyzer-client
       - npm run build
-      - cd..
+      - cd ..
   post_build:
     commands:
       - cd complexity-analyzer-client
