@@ -92,6 +92,7 @@ const Results = () => {
 
     return (
         <Container className="mt-5 text-center">
+            <br />
             <h1>Your Results</h1>
             <p>Analyzing complexity takes time, please wait up to 15 minutes for your results to appear...</p>
             {isLoading ? <ContainerCard><Spinner /></ContainerCard> : resultList()}

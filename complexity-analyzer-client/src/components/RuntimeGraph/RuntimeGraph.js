@@ -42,21 +42,30 @@ function RuntimeGraph({ timestamp, uuid }) {
             });
     }
 
-
-    if (isLoading) {
-        return (
-            <ContainerCard>
+    const renderGraphDisplay = () => {
+        if (isLoading) {
+            return (
                 <Spinner color='primary' />
-            </ContainerCard>
-        );
-    } else if (hasError) {
-        return (
-            <>
-                <Alert color="danger">Error loading results runtime graph</Alert>
-                <Button onClick={getResultsGraph}>Retry</Button>
-            </>
-        );
-    }
+            );
+        } else if (hasError) {
+            return (
+                <>
+                    <Alert color="danger">Error loading results runtime graph</Alert>
+                </>
+            );
+        } else if (graphData === null) {
+            <Alert color='warning'>No Graph Data Yet</Alert>
+        } else {
+            <XYPlot width={1000} height={600}>
+                <VerticalGridLines />
+                <HorizontalGridLines />
+                <XAxis title='Input Size' />
+                <YAxis title='Runtime (seconds)' />
+                <MarkSeries data={graphData} />
+            </XYPlot>
+        }
+    };
+
     return (
         <>
             {isLoading ?
@@ -75,15 +84,7 @@ function RuntimeGraph({ timestamp, uuid }) {
                 </Button> :
                 <Button size='lg' color="primary" onClick={getResultsGraph} style={{ margin: '16px' }}>Get Runtime Graph</Button>}
             <ContainerCard>
-                {(graphData !== null) ? (
-                    <XYPlot width={1000} height={600}>
-                        <VerticalGridLines />
-                        <HorizontalGridLines />
-                        <XAxis title='Input Size' />
-                        <YAxis title='Runtime (seconds)' />
-                        <MarkSeries data={graphData} />
-                    </XYPlot>
-                ) : <Alert color='warning'>No Graph Data Yet</Alert>}
+                {renderGraphDisplay()}
             </ContainerCard>
         </>
     );
