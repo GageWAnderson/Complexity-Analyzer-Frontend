@@ -5,13 +5,19 @@ phases:
     runtime-versions:
       nodejs: 16
     commands:
+      - echo Installing source NPM dependencies...  
+      - cd complexity-analyzer-client
       - npm install
+      - cd..
   build:
     commands:
+      - cd complexity-analyzer-client
       - npm run build
+      - cd..
   post_build:
     commands:
-      - aws s3 sync / s3://complexity-analyzer-website-bucket --acl public-read
+      - cd complexity-analyzer-client
+      - aws s3 sync build/ s3://complexity-analyzer-website-bucket --acl public-read
 artifacts:
   files:
     - "**/*"
