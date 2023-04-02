@@ -6,24 +6,23 @@ import { BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import awsconfig from './aws-exports';
 import awsData from './data/aws-data';
 import { updateUser } from './redux/profileSlice';
 import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure({
   Auth: {
-    region: awsconfig.aws_cognito_region,
-    userPoolId: awsconfig.aws_user_pools_id,
-    userPoolWebClientId: awsconfig.aws_user_pools_web_client_id,
-    identityPoolId: awsconfig.aws_cognito_identity_pool_id,
+    region: "us-east-1",
+    userPoolId: "us-east-1_ifZr0x8em",
+    userPoolWebClientId: "694aul1asptgmbiu3g28128qqs",
+    identityPoolId: "us-east-1:6c22e840-d4d7-4008-b793-078a2cc98797",
   },
   API: {
     endpoints: [
       {
         name: awsData.apiGatewayName,
         endpoint: awsData.endpoint,
-        region: awsconfig.aws_project_region,
+        region: "us-east-1",
       },
     ]
   },
