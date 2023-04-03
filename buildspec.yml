@@ -17,7 +17,8 @@ phases:
   post_build:
     commands:
       - cd complexity-analyzer-client
-      - aws s3 sync build/ s3://complexity-analyzer-website-bucket
+      - aws s3 sync build/ s3://complexity-analyzer-app.com
+      - cd ..
 artifacts:
   files:
     - "**/*"
