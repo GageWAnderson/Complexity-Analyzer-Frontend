@@ -18,6 +18,8 @@ phases:
     commands:
       - cd complexity-analyzer-client
       - aws s3 sync build/ s3://complexity-analyzer-app.com
+      - aws cloudfront create-invalidation --distribution-id EVEIKV1I4IRAB --paths /*
+      - aws cloudfront create-invalidation --distribution-id E3LGLQATJ1NRQ0 --paths /*
       - cd ..
 artifacts:
   files:
