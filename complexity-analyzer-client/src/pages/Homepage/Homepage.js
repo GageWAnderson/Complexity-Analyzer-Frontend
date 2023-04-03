@@ -12,7 +12,6 @@ const Homepage = () => {
             <br />
             <Container className="mt-5 text-center">
                 <h1>Python Code Editor</h1>
-                <p>Function name def... is assumed, write the function body below in valid Python with no extra indents.</p>
                 <ArgumentEntryForm />
                 <ArgumentList />
                 <DescriptionEntryForm />
