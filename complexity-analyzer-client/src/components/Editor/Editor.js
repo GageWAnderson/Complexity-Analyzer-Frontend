@@ -22,6 +22,7 @@ const Editor = () => {
             setHasSubmitted(false);
         }
         setCode(newCode);
+        console.log(JSON.stringify(newCode));
     };
 
     const getMaxInputSize = (inputArgs) => {
@@ -45,15 +46,27 @@ const Editor = () => {
         return formattedArgs;
     };
 
+    const isValidCode = (code) => {
+        if (code === '') {
+            return false;
+        }
+        return true;
+    };
+
     const submitCodeAndArgs = (event) => {
         event.preventDefault();
-        const formattedCode = JSON.stringify(code);
+        if (!isValidCode(code)) {
+            setHasSubmissionError(true);
+            setHasSubmitted(true);
+            return;
+        }
+
         const formattedArgs = formatArguments(inputArgs);
         const maxInputSize = getMaxInputSize(inputArgs);
         const init = {
             body: {
                 description: description,
-                inputCode: formattedCode,
+                inputCode: JSON.stringify(code),
                 maxInputSize: parseInt(maxInputSize),
                 args: formattedArgs
             },
@@ -77,6 +90,7 @@ const Editor = () => {
 
     return (
         <>
+            <h2>Code Editor</h2>
             <AceEditor
                 mode="python"
                 theme="dracula"

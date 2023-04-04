@@ -23,6 +23,7 @@ function RuntimeGraph({ timestamp, uuid }) {
                 y: parseFloat(item.y),
             }
         });
+        console.log(mappedData);
         dispatch(updateResultsGraph(mappedData));
     };
 
@@ -49,20 +50,22 @@ function RuntimeGraph({ timestamp, uuid }) {
             );
         } else if (hasError) {
             return (
-                <>
-                    <Alert color="danger">Error loading results runtime graph</Alert>
-                </>
+                <Alert color="danger">Error loading results runtime graph</Alert>
             );
         } else if (graphData === null) {
-            <Alert color='warning'>No Graph Data Yet</Alert>
+            return (
+                <Alert color='warning'>No Graph Data Yet</Alert>
+            );
         } else {
-            <XYPlot width={1000} height={600}>
-                <VerticalGridLines />
-                <HorizontalGridLines />
-                <XAxis title='Input Size' />
-                <YAxis title='Runtime (seconds)' />
-                <MarkSeries data={graphData} />
-            </XYPlot>
+            return (
+                <XYPlot width={1000} height={600}>
+                    <VerticalGridLines />
+                    <HorizontalGridLines />
+                    <XAxis title='Input Size' />
+                    <YAxis title='Runtime (seconds)' />
+                    <MarkSeries data={graphData} />
+                </XYPlot>
+            );
         }
     };
 

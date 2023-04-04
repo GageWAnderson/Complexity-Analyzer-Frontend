@@ -21,17 +21,20 @@ const ArgumentList = () => {
     }
   };
   return (
-    <Accordion open={open} toggle={toggle} style={{ marginTop: '16px', marginBottom: '32px' }}>
-      {objects.map(inputArgument => (
-        <AccordionItem key={inputArgument.name}>
-          <AccordionHeader targetId={inputArgument.name}>{inputArgument.name}</AccordionHeader>
-          <AccordionBody accordionId={inputArgument.name}>
-            <p><b>Type : </b>{inputArgument.type},<b> Variable: </b>{inputArgument.isVariable ? "True" : "False"} {inputArgument.isVariable && `, Max Input Size: ${inputArgument.maxInputSize}`}</p>
-            <Button id={inputArgument.name} color="danger" onClick={deleteInputArg}>Delete</Button>
-          </AccordionBody>
-        </AccordionItem>
-      ))}
-    </Accordion>
+    <>
+      <h2>Argument List</h2>
+      <Accordion open={open} toggle={toggle} style={{ marginTop: '16px', marginBottom: '32px' }}>
+        {objects.map(inputArgument => (
+          <AccordionItem key={inputArgument.name}>
+            <AccordionHeader targetId={inputArgument.name}><b>Argument:</b> {inputArgument.name}</AccordionHeader>
+            <AccordionBody accordionId={inputArgument.name}>
+              <p><b>Type : </b>{inputArgument.type},<b> Variable: </b>{inputArgument.isVariable ? "True" : "False"} {inputArgument.isVariable && `, Max Input Size: ${inputArgument.maxInputSize}`}</p>
+              <Button id={inputArgument.name} color="danger" onClick={deleteInputArg}>Delete</Button>
+            </AccordionBody>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </>
   );
 };
 

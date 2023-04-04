@@ -9,7 +9,11 @@ export const resultsMetadata = createSlice({
     initialState,
     reducers: {
         updateResultsMetadata: (state, action) => {
-            state.results = action.payload;
+            const newResultsMetadata = [];
+            for (const result of action.payload) {
+                newResultsMetadata.push(JSON.parse(result.metadata));
+            }
+            state.results = newResultsMetadata;
         }
     },
 })
