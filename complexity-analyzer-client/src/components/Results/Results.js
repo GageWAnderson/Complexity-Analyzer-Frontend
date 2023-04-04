@@ -93,7 +93,7 @@ const Results = () => {
 
 
     const resultList = () => {
-        if (resultsMetadata === null) {
+        if (resultsMetadata === null || hasError) {
             return (
                 <Alert color='danger'>Failed to load results metadata</Alert>
             );
@@ -130,7 +130,9 @@ const Results = () => {
             <br />
             <h1>Your Results</h1>
             <p>Analyzing complexity takes time, please wait up to 15 minutes for your results to appear...</p>
-            {isLoading ? <ContainerCard><Spinner /></ContainerCard> : resultList()}
+            <ContainerCard>
+                {isLoading ? <Spinner /> : resultList()}
+            </ContainerCard>
             {isLoading ?
                 <Button
                     size='lg'

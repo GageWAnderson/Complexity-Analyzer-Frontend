@@ -17,7 +17,7 @@ const ComplexityAnalyzerNavbar = () => {
     return (
         <Navbar color="dark" dark expand="md" fixed="top">
             <Container fluid>
-                <Row noGutters xs="3">
+                <Row xs="3">
                     <Col className="d-flex justify-content-left">
                         <NavbarBrand href="#">Code Complexity Analyzer</NavbarBrand>
                     </Col>

@@ -57,7 +57,7 @@ const DescriptionEntryForm = () => {
                 {formSubmitted && (textareaError ? <Alert color='danger'>There was an error submitting your description, try again.</Alert> :
                     <Alert color='success'>Successfully saved code description.</Alert>)}
             </Form>
-            <Alert color='primary'><b>Description: </b>{codeDescription && <p>{codeDescription}</p>}</Alert>
+            {codeDescription && <Alert color='primary'><b>Description: </b>{codeDescription}</Alert>}
         </ContainerCard>
     );
 };

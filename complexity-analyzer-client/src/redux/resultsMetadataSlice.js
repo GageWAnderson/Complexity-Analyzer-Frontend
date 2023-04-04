@@ -11,7 +11,7 @@ export const resultsMetadata = createSlice({
         updateResultsMetadata: (state, action) => {
             const newResultsMetadata = [];
             for (const result of action.payload) {
-                newResultsMetadata.push(JSON.parse(result.metadata));
+                newResultsMetadata.push(result);
             }
             state.results = newResultsMetadata;
         }
