@@ -73,7 +73,7 @@ const ArgumentEntryForm = () => {
 
     return (
         <ContainerCard>
-            <h3>Input Argument</h3>
+            <h3>Input Arguments</h3>
             <Form onSubmit={handleSubmit}>
                 <FormGroup row>
                     <Label for="name" sm={2}>

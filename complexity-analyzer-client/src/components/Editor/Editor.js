@@ -7,6 +7,7 @@ import { API } from 'aws-amplify';
 import endpoints from '../../data/endpoints'
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-dracula';
+import ContainerCard from '../ContainerCard/ContainerCard';
 
 const Editor = () => {
     const [code, setCode] = useState('');
@@ -22,7 +23,6 @@ const Editor = () => {
             setHasSubmitted(false);
         }
         setCode(newCode);
-        console.log(JSON.stringify(newCode));
     };
 
     const getMaxInputSize = (inputArgs) => {
@@ -89,7 +89,7 @@ const Editor = () => {
     };
 
     return (
-        <>
+        <ContainerCard>
             <h2>Code Editor</h2>
             <AceEditor
                 mode="python"
@@ -118,7 +118,7 @@ const Editor = () => {
                     </span>
                 </Button> :
                 <Button size='lg' color="primary" onClick={submitCodeAndArgs} style={{ margin: '16px' }}>Analyze Code</Button>}
-        </>
+        </ContainerCard>
 
     );
 };

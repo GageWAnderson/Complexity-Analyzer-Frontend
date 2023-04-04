@@ -108,7 +108,7 @@ const Results = () => {
                         </ListGroupItem>
                     ))}
                 </ListGroup>
-                <Pagination>
+                {resultsMetadata.length > 0 && <Pagination style={{ margin: '16px' }}>
                     <PaginationItem disabled={page === 1}>
                         <PaginationLink previous onClick={() => handlePageClick(page - 1)} />
                     </PaginationItem>
@@ -120,7 +120,7 @@ const Results = () => {
                     <PaginationItem disabled={page === totalPages}>
                         <PaginationLink next onClick={() => handlePageClick(page + 1)} />
                     </PaginationItem>
-                </Pagination>
+                </Pagination>}
             </>
         );
     }

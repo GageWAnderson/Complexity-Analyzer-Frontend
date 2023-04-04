@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    results: null
+    results: []
 }
 
 export const resultsMetadata = createSlice({
