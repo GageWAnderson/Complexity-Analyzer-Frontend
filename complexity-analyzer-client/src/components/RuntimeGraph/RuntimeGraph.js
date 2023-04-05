@@ -43,6 +43,11 @@ function RuntimeGraph({ timestamp, uuid }) {
             });
     }
 
+    const minX = graphData ? Math.min(...graphData.map(item => item.x)) : 0;
+    const maxX = graphData ? Math.max(...graphData.map(item => item.x)) : 0;
+    const minY = graphData ? Math.min(...graphData.map(item => item.y)) : 0;
+    const maxY = graphData ? Math.max(...graphData.map(item => item.y)) : 0;
+
     const renderGraphDisplay = () => {
         if (isLoading) {
             return (
@@ -58,7 +63,7 @@ function RuntimeGraph({ timestamp, uuid }) {
             );
         } else {
             return (
-                <XYPlot width={1000} height={600}>
+                <XYPlot xDomain={[minX, maxX]} yDomain={[minY, maxY]} width={1000} height={600}>
                     <VerticalGridLines />
                     <HorizontalGridLines />
                     <XAxis title='Input Size' />

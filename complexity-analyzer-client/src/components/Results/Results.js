@@ -36,13 +36,11 @@ const Results = () => {
         setIsLoading(true);
         API.get(awsData.apiGatewayName, endpoints.getAllUserMetadata(uuid), init)
             .then(response => {
-                console.log(response);
                 dispatch(updateResultsMetadata(response.body));
                 setHasError(false);
                 setIsLoading(false);
             })
             .catch(error => {
-                console.log(error);
                 setHasError(true);
                 setIsLoading(false);
             });

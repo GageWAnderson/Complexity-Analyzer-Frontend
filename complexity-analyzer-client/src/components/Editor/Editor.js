@@ -88,6 +88,7 @@ const Editor = () => {
             });
     };
 
+    // TODO: Add informative validation for error messages on code submitting
     return (
         <ContainerCard>
             <h2>Code Editor</h2>
