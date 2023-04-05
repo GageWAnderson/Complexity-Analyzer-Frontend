@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home/Home';
-import { Amplify } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsData from './data/aws-data';
 import { updateUser } from './redux/profileSlice';
@@ -23,6 +23,11 @@ Amplify.configure({
         name: awsData.apiGatewayName,
         endpoint: awsData.endpoint,
         region: "us-east-1",
+        custom_header: async () => {
+          return {
+            Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+          }
+        }
       },
     ]
   },

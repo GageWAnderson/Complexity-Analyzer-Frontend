@@ -22,6 +22,7 @@ const Results = () => {
     const resultsMetadata = useSelector(state => state.resultsMetadata.results);
 
     const uuid = useSelector(state => state.profile.uuid);
+    const apiKey = useSelector(state => state.profile.apiKey);
 
     const totalPages = Math.ceil(resultsMetadata.length / ITEMS_PER_PAGE);
 
@@ -31,7 +32,7 @@ const Results = () => {
         if (event) {
             event.preventDefault();
         }
-        const init = { headers: {} };
+        const init = { headers: { 'x-api-key': apiKey } };
         setHasError(false);
         setIsLoading(true);
         API.get(awsData.apiGatewayName, endpoints.getAllUserMetadata(uuid), init)

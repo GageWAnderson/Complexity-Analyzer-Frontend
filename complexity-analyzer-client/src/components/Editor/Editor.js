@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AceEditor from 'react-ace';
 import { Alert, Button, Spinner } from 'reactstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import awsData from '../../data/aws-data';
 import { API } from 'aws-amplify';
 import endpoints from '../../data/endpoints'
@@ -17,6 +17,8 @@ const Editor = () => {
     const [hasSubmissionError, setHasSubmissionError] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const apiKey = useSelector(state => state.profile.apiKey);
 
     const handleCodeChange = (newCode) => {
         if (hasSubmitted) {
@@ -70,7 +72,7 @@ const Editor = () => {
                 maxInputSize: parseInt(maxInputSize),
                 args: formattedArgs
             },
-            headers: {},
+            headers: { 'x-api-key': apiKey },
         }
         setIsLoading(true);
         setHasSubmitted(false);

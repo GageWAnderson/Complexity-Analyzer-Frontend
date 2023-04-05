@@ -4,7 +4,7 @@ const initialState = {
     username: '',
     email: '',
     uuid: '',
-    // TODO: Store key needed to access AWS API Gateway through Cognito User Pool
+    apiKey: ''
 }
 
 export const profileSlice = createSlice({
@@ -15,10 +15,16 @@ export const profileSlice = createSlice({
             state.username = action.payload.username;
             state.email = action.payload.email;
             state.uuid = action.payload.uuid;
+        },
+        getApiKey: (state) => {
+            return state.apiKey;
+        },
+        updateApiKey: (state, action) => {
+            state.apiKey = action.payload.apiKey;
         }
     },
 })
 
-export const { updateUser } = profileSlice.actions
+export const { updateUser, getApiKey, updateApiKey } = profileSlice.actions
 
 export default profileSlice.reducer

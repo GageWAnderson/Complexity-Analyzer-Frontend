@@ -13,6 +13,7 @@ function RuntimeGraph({ timestamp, uuid }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const graphData = useSelector(state => state.resultsGraph.graph);
+    const apiKey = useSelector(state => state.profile.apiKey);
 
     const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ function RuntimeGraph({ timestamp, uuid }) {
 
     const getResultsGraph = (event) => {
         event.preventDefault();
-        const init = { headers: {} };
+        const init = { headers: { 'x-api-key': apiKey } };
         setIsLoading(true);
         API.get(awsData.apiGatewayName, endpoints.getResultGraph(uuid, timestamp), init)
             .then(response => {
