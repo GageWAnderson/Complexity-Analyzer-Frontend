@@ -9,6 +9,7 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsData from './data/aws-data';
 import { updateUser } from './redux/profileSlice';
 import '@aws-amplify/ui-react/styles.css';
+const AWS = require('aws-sdk');
 
 Amplify.configure({
   Auth: {
@@ -32,6 +33,8 @@ Amplify.configure({
     ]
   },
 });
+
+AWS.config.region = 'us-east-1';
 
 const App = ({ signOut, user }) => {
 
