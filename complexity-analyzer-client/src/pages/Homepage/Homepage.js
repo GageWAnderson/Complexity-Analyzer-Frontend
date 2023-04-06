@@ -7,17 +7,14 @@ import { Container } from 'reactstrap';
 
 const Homepage = () => {
     return (
-        <>
-            <br />
-            <Container className="mt-5 text-center">
-                <h1>Python Code Editor</h1>
-                <p>Enter a maximum of 3 arguments.</p>
-                <ArgumentEntryForm />
-                <ArgumentList />
-                <DescriptionEntryForm />
-                <Editor />
-            </Container>
-        </>
+        <Container >
+            <h1>Python Code Editor</h1>
+            <p>Enter a maximum of 3 arguments.</p>
+            <ArgumentEntryForm />
+            <ArgumentList />
+            <DescriptionEntryForm />
+            <Editor />
+        </Container>
     );
 }
 

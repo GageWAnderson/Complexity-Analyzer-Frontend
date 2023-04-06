@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     username: '',
     email: '',
-    uuid: ''
+    uuid: '',
+    signedIn: false
 }
 
 export const profileSlice = createSlice({
@@ -14,7 +15,8 @@ export const profileSlice = createSlice({
             state.username = action.payload.username;
             state.email = action.payload.email;
             state.uuid = action.payload.uuid;
-        }
+            state.signedIn = true;
+        },
     },
 })
 

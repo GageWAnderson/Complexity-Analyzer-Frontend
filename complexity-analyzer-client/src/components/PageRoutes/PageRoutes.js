@@ -8,7 +8,7 @@ import Results from "../Results/Results.js";
 
 const PageRoutes = () => {
     return (
-        <Container>
+        <Container style={{paddingTop: '100px', paddingBottom: '100px', boxSizing: 'border-box'}}>
             <Routes>
                 <Route exact path={routes.home} element={<Homepage />}></Route>
                 <Route exact path={routes.profile} element={<Profile />}></Route>

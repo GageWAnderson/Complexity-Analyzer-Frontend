@@ -1,15 +1,13 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { Amplify, Auth } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsData from './data/aws-data';
-import { updateUser } from './redux/profileSlice';
+import { Authenticator } from '@aws-amplify/ui-react';
+import { Container, Row, Col } from 'reactstrap';
 import '@aws-amplify/ui-react/styles.css';
-const AWS = require('aws-sdk');
 
 Amplify.configure({
   Auth: {
@@ -34,23 +32,35 @@ Amplify.configure({
   },
 });
 
-AWS.config.region = 'us-east-1';
+const App = () => {
 
-const App = ({ signOut, user }) => {
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(updateUser({ username: user.username, email: user.attributes.email, uuid: user.attributes.sub }));
-  }, [dispatch, signOut, user]);
+  const renderApp = (signOut, user) => {
+    return (
+      <BrowserRouter>
+        <div className="App">
+          <Home user={user} signOut={signOut} />
+        </div>
+      </BrowserRouter>
+    );
+  };
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Home />
-      </div>
-    </BrowserRouter>
-  )
+    <Container>
+      <Row>
+        <Col>
+          <Authenticator loginMechanisms={['username', 'email']}>
+            {({ signOut, user }) => (
+              <main>
+                {renderApp(signOut, user)}
+              </main>
+            )}
+          </Authenticator>
+        </Col>
+      </Row>
+    </Container>
+
+  );
+
 }
 
-export default withAuthenticator(App);
+export default App;

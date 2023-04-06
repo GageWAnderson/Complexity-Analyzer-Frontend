@@ -98,7 +98,9 @@ const Results = () => {
             );
         }
         return (
-            <>
+            <Container>
+                <h1>Your Results</h1>
+                <p>Analyzing complexity takes time, please wait up to 15 minutes for your results to appear...</p>
                 <ListGroup>
                     {itemsToDisplay.map(value => (
                         <ListGroupItem onClick={handleListItemClick} active={value.timestamp === activeItem} id={value.timestamp} key={value.timestamp}>
@@ -120,18 +122,13 @@ const Results = () => {
                         <PaginationLink next onClick={() => handlePageClick(page + 1)} />
                     </PaginationItem>
                 </Pagination>}
-            </>
+            </Container>
         );
     }
 
     return (
-        <Container className="mt-5 text-center">
-            <br />
-            <h1>Your Results</h1>
-            <p>Analyzing complexity takes time, please wait up to 15 minutes for your results to appear...</p>
-            <ContainerCard>
-                {isLoading ? <Spinner /> : resultList()}
-            </ContainerCard>
+        <Container className="justify-content-center">
+            {isLoading ? <Spinner /> : resultList()}
             {isLoading ?
                 <Button
                     size='lg'

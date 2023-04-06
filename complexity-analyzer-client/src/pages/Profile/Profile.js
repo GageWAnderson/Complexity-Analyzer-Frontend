@@ -7,16 +7,11 @@ const Profile = () => {
   const { username, email } = useSelector((state) => state.profile);
 
   return (
-    <>
-      <br />
-      <br />
-      <br />
-      <ContainerCard>
-        <h1>Profile Information</h1>
-        <p>Username: {username}</p>
-        <p>Email: {email}</p>
-      </ContainerCard>
-    </>
+    <ContainerCard>
+    <h1>Profile Information</h1>
+    <p>Username: {username}</p>
+    <p>Email: {email}</p>
+  </ContainerCard>
 
   );
 };

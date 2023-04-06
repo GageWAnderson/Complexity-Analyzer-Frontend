@@ -32,7 +32,6 @@ export const inputArgumentsSlice = createSlice({
 
         },
         removeInputArgument: (state, action) => {
-            console.log(action.payload);
             const isVariable = state.inputArguments.find(inputArgument => inputArgument.name === action.payload).isVariable;
             if (isVariable) {
                 state.numVariableArgs--;

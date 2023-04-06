@@ -24,7 +24,6 @@ function RuntimeGraph({ timestamp, uuid }) {
                 y: parseFloat(item.y),
             }
         });
-        console.log(mappedData);
         dispatch(updateResultsGraph(mappedData));
     };
 

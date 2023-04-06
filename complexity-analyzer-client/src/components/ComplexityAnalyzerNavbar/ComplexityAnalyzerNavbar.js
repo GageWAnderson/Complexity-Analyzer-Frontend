@@ -4,7 +4,7 @@ import routes from '../../data/routes';
 import { NavLink as RRNavLink } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 
-const ComplexityAnalyzerNavbar = () => {
+const ComplexityAnalyzerNavbar = ({ signOut }) => {
 
     const [signOutError, setSignOutError] = useState(false);
 
