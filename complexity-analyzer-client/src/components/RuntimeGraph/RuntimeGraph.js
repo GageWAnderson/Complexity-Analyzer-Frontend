@@ -30,6 +30,10 @@ function RuntimeGraph({ timestamp, uuid }) {
 
     const getResultsGraph = (event) => {
         event.preventDefault();
+        if (timestamp === null) {
+            setHasError(true);
+            return;
+        }
         const init = { headers: { 'x-api-key': apiKey } };
         setIsLoading(true);
         API.get(awsData.apiGatewayName, endpoints.getResultGraph(uuid, timestamp), init)

@@ -47,7 +47,7 @@ const Profile = () => {
       })
   };
 
-  const createApiKey = (userId) => {
+  const generateApiKey = (userId) => {
     Auth.currentCredentials()
       .then((credentials) => {
         AWS.config.credentials = credentials;
@@ -56,6 +56,7 @@ const Profile = () => {
           enabled: true,
           name: `API Key for user ${userId}`,
         };
+
         apiGateway.createApiKey(params, function (err, data) {
           if (err) {
             console.log(err);
@@ -63,22 +64,34 @@ const Profile = () => {
           } else {
             setGetApiKeyError(false);
             console.log(data);
-            dispatch(updateApiKey({apiKey: data.value}));
+            dispatch(updateApiKey({ apiKey: data.value }));
+            const usagePlanKeyParams = {
+              keyId: data.id,
+              keyType: 'API_KEY',
+              usagePlanId: awsData.apiGatewayBasicUsagePlanId,
+            };
+            apiGateway.createUsagePlanKey(usagePlanKeyParams, function (err, data) {
+              if (err) {
+                setGetApiKeyError(true);
+              } else {
+                console.log(`API key ${data} associated with usage plan`);
+                setGetApiKeyError(false);
+                console.log('API key ' + apiKey + ' associated with usage plan ' + awsData.apiGatewayBasicUsagePlanId);
+              }
+            });
           }
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      });
   }
 
   const requestApiKey = (event) => {
     event.preventDefault();
     const apiKey = getApiKey(username);
+    console.log(`API Key: ${apiKey}`);
     if (apiKey) {
-      dispatch(updateApiKey({apiKey: apiKey}));
+      dispatch(updateApiKey({ apiKey: apiKey }));
     } else {
-      createApiKey(username);
+      generateApiKey(username);
     }
   };
 

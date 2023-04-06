@@ -5,6 +5,7 @@ const awsData = {
     apiGatewayBasicUsagePlan: "Basic",
     apiGatewayProdStage: "Prod",
     endpoint: "https://xa51s0jinb.execute-api.us-east-1.amazonaws.com/Prod",
+    apiGatewayBasicUsagePlanId: "tx5doe",
 };
 
 export default awsData;
