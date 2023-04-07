@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, Container, Row, Col, Alert } from 'reactstrap';
 import routes from '../../data/routes';
 import { useDispatch } from 'react-redux';
 import { signUserOut } from '../../redux/profileSlice';
 import { NavLink as RRNavLink } from "react-router-dom";
 import { Auth } from 'aws-amplify';
+import { setSignOutError } from '../../redux/profileSlice';
 
 const ComplexityAnalyzerNavbar = ({ signOut }) => {
 
-    const [signOutError, setSignOutError] = useState(false);
     const dispatch = useDispatch();
 
     const handleSignOut = () => {
         Auth.signOut({ global: true })
             .then(data => {
                 dispatch(signUserOut());
+                dispatch(setSignOutError(false));
                 signOut();
             })
             .catch(err => {
-                setSignOutError(true);
+                dispatch(setSignOutError(true));
             });
     }
 
@@ -43,7 +44,6 @@ const ComplexityAnalyzerNavbar = ({ signOut }) => {
                         </Nav>
                     </Col>
                     <Col className="d-flex justify-content-end">
-                        {signOutError && <Alert color='danger'>There was an error signing you out.</Alert>}
                         <Button className='ml-auto' onClick={handleSignOut} color="danger">Sign Out</Button>
                     </Col>
                 </Row>

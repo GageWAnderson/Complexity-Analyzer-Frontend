@@ -3,11 +3,15 @@ import Editor from '../../components/Editor/Editor';
 import ArgumentEntryForm from '../../components/ArgumentEntryForm/ArgumentEntryForm';
 import ArgumentList from '../../components/ArgumentList/ArgumentList';
 import DescriptionEntryForm from '../../components/DescriptionEntryForm/DescriptionEntryForm';
-import { Container } from 'reactstrap';
+import { Container, Alert } from 'reactstrap';
+import { useSelector } from 'react-redux';
 
 const Homepage = () => {
+    const signOutError = useSelector(state => state.profile.signOutError);
+
     return (
-        <Container >
+        <Container>
+            {signOutError && <Alert color="danger">Error signing out</Alert>}
             <h1>Instructions</h1>
             <p>Enter a maximum of 3 arguments, which can be integers, strings, or lists of integers or strings.
                 Click 'vary this argument' if you want the complexity analyzer to change that argument to make the

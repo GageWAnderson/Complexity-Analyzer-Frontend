@@ -4,7 +4,8 @@ const initialState = {
     username: '',
     email: '',
     uuid: '',
-    signedIn: false
+    signedIn: false,
+    signOutError: false
 }
 
 export const profileSlice = createSlice({
@@ -22,10 +23,13 @@ export const profileSlice = createSlice({
             state.email = '';
             state.uuid = '';
             state.signedIn = false;
+        },
+        setSignOutError: (state, action) => {
+            state.signOutError = action.payload;
         }
     },
 })
 
-export const { updateUser, signUserOut } = profileSlice.actions
+export const { updateUser, signUserOut, setSignOutError } = profileSlice.actions
 
 export default profileSlice.reducer
