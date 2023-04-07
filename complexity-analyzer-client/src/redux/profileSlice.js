@@ -17,9 +17,15 @@ export const profileSlice = createSlice({
             state.uuid = action.payload.uuid;
             state.signedIn = true;
         },
+        signUserOut: (state) => {
+            state.username = '';
+            state.email = '';
+            state.uuid = '';
+            state.signedIn = false;
+        }
     },
 })
 
-export const { updateUser } = profileSlice.actions
+export const { updateUser, signUserOut } = profileSlice.actions
 
 export default profileSlice.reducer

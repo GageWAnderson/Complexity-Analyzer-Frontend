@@ -8,23 +8,28 @@ import endpoints from '../../data/endpoints'
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-dracula';
 import ContainerCard from '../ContainerCard/ContainerCard';
+import { updateInputCode } from '../../redux/inputArgumentsSlice';
 
 const Editor = () => {
-    const [code, setCode] = useState('');
     const inputArgs = useSelector(state => state.inputArguments.inputArguments);
     const uuid = useSelector(state => state.profile.uuid);
+    const [errorText, setErrorText] = useState('There was an error submitting your code and arguments.');
     const description = useSelector(state => state.inputArguments.description);
     const [hasSubmissionError, setHasSubmissionError] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const dispatch = useDispatch();
+
     const apiKey = useSelector(state => state.profile.apiKey);
+
+    const code = useSelector(state => state.inputArguments.inputCode);
 
     const handleCodeChange = (newCode) => {
         if (hasSubmitted) {
             setHasSubmitted(false);
         }
-        setCode(newCode);
+        dispatch(updateInputCode(newCode));
     };
 
     const getMaxInputSize = (inputArgs) => {
@@ -58,6 +63,12 @@ const Editor = () => {
     const submitCodeAndArgs = (event) => {
         event.preventDefault();
         if (!isValidCode(code)) {
+            setErrorText('Code cannot be empty.');
+            setHasSubmissionError(true);
+            setHasSubmitted(true);
+            return;
+        } else if (inputArgs.length === 0) {
+            setErrorText('You must have at least one input argument.');
             setHasSubmissionError(true);
             setHasSubmitted(true);
             return;
@@ -104,7 +115,7 @@ const Editor = () => {
                 width="100%"
                 height="500px"
             />
-            {(hasSubmitted && hasSubmissionError) && <Alert style={{ margin: '16px' }} color="danger">Error submitting code and arguments.</Alert>}
+            {(hasSubmitted && hasSubmissionError) && <Alert style={{ margin: '16px' }} color="danger">{errorText}</Alert>}
             {(hasSubmitted && !hasSubmissionError) && <Alert style={{ margin: '16px' }} color="success">Successfully submitted code and arguments.</Alert>}
             {isLoading ?
                 <Button

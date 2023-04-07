@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     inputArguments: [],
     description: '',
-    numVariableArgs: 0
+    numVariableArgs: 0,
+    inputCode: ''
 }
 
 export const inputArgumentsSlice = createSlice({
@@ -37,10 +38,13 @@ export const inputArgumentsSlice = createSlice({
                 state.numVariableArgs--;
             }
             state.inputArguments = state.inputArguments.filter(inputArgument => inputArgument.name !== action.payload);
+        },
+        updateInputCode: (state, action) => {
+            state.inputCode = action.payload;
         }
     },
 })
 
-export const { updateDescription, getInputArguments, addInputArgument, removeInputArgument } = inputArgumentsSlice.actions
+export const { updateDescription, getInputArguments, addInputArgument, removeInputArgument, updateInputCode } = inputArgumentsSlice.actions
 
 export default inputArgumentsSlice.reducer

@@ -55,7 +55,7 @@ function RuntimeGraph({ timestamp, uuid }) {
     const renderGraphDisplay = () => {
         if (isLoading) {
             return (
-                <Spinner color='primary' />
+                <div className='text-center'><Spinner /></div>
             );
         } else if (hasError) {
             return (

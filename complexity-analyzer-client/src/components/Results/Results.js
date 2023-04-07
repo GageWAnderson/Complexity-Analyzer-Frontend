@@ -128,7 +128,11 @@ const Results = () => {
 
     return (
         <Container className="justify-content-center">
-            {isLoading ? <Spinner /> : resultList()}
+            <ContainerCard className="d-flex justify-content-center">
+                {isLoading ?
+                    <div className='text-center'><Spinner /></div>
+                    : resultList()}
+            </ContainerCard>
             {isLoading ?
                 <Button
                     size='lg'

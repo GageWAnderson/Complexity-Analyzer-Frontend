@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, Container, Row, Col } from 'reactstrap';
 import routes from '../../data/routes';
+import { useDispatch } from 'react-redux';
+import { signUserOut } from '../../redux/profileSlice';
 import { NavLink as RRNavLink } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 
 const ComplexityAnalyzerNavbar = ({ signOut }) => {
 
     const [signOutError, setSignOutError] = useState(false);
+    const dispatch = useDispatch();
 
     const handleSignOut = () => {
         Auth.signOut({ global: true }).catch(err => {
             setSignOutError(true);
         });
+        dispatch(signUserOut());
     }
 
     return (

@@ -1,12 +1,13 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { Amplify, Auth } from 'aws-amplify';
 import awsData from './data/aws-data';
 import { Authenticator } from '@aws-amplify/ui-react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure({
@@ -34,6 +35,8 @@ Amplify.configure({
 
 const App = () => {
 
+  const signedIn = useSelector(state => state.profile.signedIn);
+
   const renderApp = (signOut, user) => {
     return (
       <BrowserRouter>
@@ -45,20 +48,15 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Authenticator loginMechanisms={['username', 'email']}>
-            {({ signOut, user }) => (
-              <main>
-                {renderApp(signOut, user)}
-              </main>
-            )}
-          </Authenticator>
-        </Col>
-      </Row>
+    <Container className={`${signedIn ? '' : 'd-flex justify-content-center align-items-center'}`} style={{ height: '100vh' }}>
+      <Authenticator loginMechanisms={['username', 'email']}>
+        {({ signOut, user }) => (
+          <main>
+            {renderApp(signOut, user)}
+          </main>
+        )}
+      </Authenticator>
     </Container>
-
   );
 
 }
