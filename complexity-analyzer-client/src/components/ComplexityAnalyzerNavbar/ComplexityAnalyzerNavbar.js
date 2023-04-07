@@ -12,10 +12,14 @@ const ComplexityAnalyzerNavbar = ({ signOut }) => {
     const dispatch = useDispatch();
 
     const handleSignOut = () => {
-        Auth.signOut({ global: true }).catch(err => {
+        Auth.signOut({ global: true })
+        .then(data => {
+            dispatch(signUserOut());
+            signOut();
+        })
+        .catch(err => {
             setSignOutError(true);
         });
-        dispatch(signUserOut());
     }
 
     return (
