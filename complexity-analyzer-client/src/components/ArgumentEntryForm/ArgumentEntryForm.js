@@ -84,18 +84,18 @@ const ArgumentEntryForm = () => {
                             type="text"
                             name="name"
                             id="name"
-                            placeholder="Enter your name"
+                            placeholder="Enter a name for your argument i.e. 'n'"
                             value={name}
                             onChange={handleNameChange}
                             invalid={!isNameValid}
                         />
-                        <FormFeedback>Please enter a name</FormFeedback>
+                        <FormFeedback>Please an argument name</FormFeedback>
                     </Col>
                 </FormGroup>
 
                 <FormGroup row>
                     <Label for="value" sm={2}>
-                        Argument Value
+                        Argument Type
                     </Label>
                     <Col sm={10}>
                         <Input

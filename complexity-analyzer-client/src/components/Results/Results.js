@@ -48,7 +48,7 @@ const Results = () => {
     }
 
     useEffect(() => {
-        if (resultsMetadata === null) {
+        if (resultsMetadata.length === 0) {
             getResultsMetadata(null);
         } else {
             setIsLoading(false);

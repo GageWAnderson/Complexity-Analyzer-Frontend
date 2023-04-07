@@ -22,13 +22,10 @@ function Home({ user, signOut }) {
       const scrollable = document.documentElement.scrollHeight - window.innerHeight;
       const scrolled = window.scrollY;
       if (scrollable <= (scrolled + 100)) {
-        // The user has scrolled to the bottom of the page
         setFooterVisible(true);
       } else if (scrollable === 0 && scrolled === 0) {
-        // Scrolling is impossible and the user can see the whole page
         setFooterVisible(true);
       } else {
-        // Neither condition is met
         setFooterVisible(false);
       }
     }

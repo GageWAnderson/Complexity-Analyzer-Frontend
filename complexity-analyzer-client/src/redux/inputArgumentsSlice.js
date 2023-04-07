@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const EXAMPLE_CODE = "example = 'Hello World'\nres = 0\nfor i in range (10):\n    res = res + example_input_argument\nreturn res"
+
 const initialState = {
     inputArguments: [],
     description: '',
     numVariableArgs: 0,
-    inputCode: ''
+    inputCode: EXAMPLE_CODE
 }
 
 export const inputArgumentsSlice = createSlice({

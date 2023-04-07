@@ -60,8 +60,18 @@ const Editor = () => {
         return true;
     };
 
+    const hasNoVariableArg = (inputArgs) => {
+        for (let i = 0; i < inputArgs.length; i++) {
+            if (inputArgs[i].isVariable) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     const submitCodeAndArgs = (event) => {
         event.preventDefault();
+        setErrorText('There was an error submitting your code and arguments.');
         if (!isValidCode(code)) {
             setErrorText('Code cannot be empty.');
             setHasSubmissionError(true);
@@ -72,6 +82,10 @@ const Editor = () => {
             setHasSubmissionError(true);
             setHasSubmitted(true);
             return;
+        } else if (hasNoVariableArg(inputArgs)) {
+            setErrorText('You must have at least one variable input argument.');
+            setHasSubmissionError(true);
+            setHasSubmitted(true);
         }
 
         const formattedArgs = formatArguments(inputArgs);
@@ -101,10 +115,12 @@ const Editor = () => {
             });
     };
 
-    // TODO: Add informative validation for error messages on code submitting
     return (
         <ContainerCard>
             <h2>Code Editor</h2>
+            <p style={{ overflowWrap: 'break-word' }}>Enter a valid python function body without the function definition (def function ...), that's automatically implied.
+                Make sure you enter your code at an indentation level of 0, otherwise the code will not be valid.
+                Some common functions, such as print(), as well as any file or OS related operations are disallowed.</p>
             <AceEditor
                 mode="python"
                 theme="dracula"

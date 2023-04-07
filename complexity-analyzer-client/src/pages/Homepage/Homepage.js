@@ -8,8 +8,11 @@ import { Container } from 'reactstrap';
 const Homepage = () => {
     return (
         <Container >
-            <h1>Python Code Editor</h1>
-            <p>Enter a maximum of 3 arguments.</p>
+            <h1>Instructions</h1>
+            <p>Enter a maximum of 3 arguments, which can be integers, strings, or lists of integers or strings.
+                Click 'vary this argument' if you want the complexity analyzer to change that argument to make the
+                runtime vs. input size graph (i.e the argument is 'n' in O(n)). Only 1 variable argument is supported.
+                The description field is optional. </p>
             <ArgumentEntryForm />
             <ArgumentList />
             <DescriptionEntryForm />
