@@ -7,9 +7,10 @@ const Footer = () => {
       <Container>
         <Row xs="1">
           <Col className="d-flex justify-content-center">
-            <p style={{marginRight: '16px'}}><b>Contact:</b> Gage Anderson</p>
-            <p style={{marginRight: '16px'}}><b>Email:</b> Gage.W.Anderson@gmail.com</p>
-            <p><b>LinkedIn:</b> https://www.linkedin.com/in/gagewanderson/</p>
+            <p style={{ marginRight: '16px' }}><b>Contact:</b> Gage Anderson</p>
+            <p style={{ marginRight: '16px' }}><b>Email:</b> Gage.W.Anderson@gmail.com</p>
+            <a style={{ marginRight: '16px' }} href='https://www.linkedin.com/in/gagewanderson/'>LinkedIn</a>
+            <a href='https://github.com/GageWAnderson'>GitHub</a>
           </Col>
         </Row>
       </Container>
